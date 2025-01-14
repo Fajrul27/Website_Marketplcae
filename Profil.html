@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Marketplace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    /* Styling untuk footer agar tetap di bawah */
+    body, html {
+        height: 100%;
+    }
+    .footer {
+        background-color: #000000;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+    .header-logo .logo-text {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+        display: inline-block;
+    }
+    th, td {
+        text-align: center;
+        vertical-align: middle !important;
+        padding: 10px;
+    }
+    .product-name-cell {
+        text-align: left;
+    }
+    .table {
+        border: 1px solid #ccc;
+        border-radius: 9px;
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    .table th, .table td {
+        border: 1px solid #dee2e6;
+    }
+    .card-img-top {
+        border-radius: 50%;
+        max-width: 150px;
+        margin-bottom: 15px;
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+    .btn-primary, .btn-danger {
+        width: 100%;
+    }
+    .profile-card {
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 1s forwards; /* Menambahkan animasi */
+    }
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .profile-details p {
+        font-size: 1.1rem;
+        margin: 8px 0;
+    }
+    .container {
+        min-height: calc(100vh - 100px); /* Menjaga agar konten tidak terlalu dekat dengan footer */
+        padding-bottom: 50px; /* Memberikan ruang di bawah */
+    }
+    .modal-content {
+        border-radius: 10px;
+    }
+    .modal-header, .modal-footer {
+        border-bottom: none;
+        border-top: none;
+    }
+    
+        .back-button {
+            position: absolute;
+            top: 50px;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #e2e6ea;
+            color: #000;
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+        }
+/* Menambahkan animasi slide dari kanan ke kiri */
+@keyframes slideFromRight {
+    0% {
+        transform: translateX(100%); /* Mulai dari luar layar kanan */
+        opacity: 0;
+    }
+    80% {
+        transform: translateX(-10px); /* Efek nabrak sedikit */
+    }
+    100% {
+        transform: translateX(0); /* Bergerak ke posisi semula */
+        opacity: 1;
+    }
+}
+
+/* Menambahkan animasi getar */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Menambahkan animasi slide dan shake */
+.table-animated {
+    animation: slideFromRight 1s ease-out, shake 0.4s ease-in-out 0,5s; /* Menggabungkan animasi slide dan shake */
+}
+
+
+    </style>
+</head>
+<body>
+    <a href="beranda.html" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z"/>
+        </svg>
+    </a>
+
+    <!-- Profile Section -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Profile Saya</h2>
+        <div class="row">
+            <!-- Profile Card -->
+            <div class="col-md-4">
+                <div class="profile-card">
+                    <img src="assets/images/icons/Icon Profil.png" class="card-img-top" alt="Profile Picture">
+                    <h5 id="profile-name">Ahmad Fajrul 'Ulum</h5>
+                    <div class="profile-details">
+                        <p id="profile-email">Email: ahmadfajrululum927@gmail.com</p>
+                        <p id="profile-address">Alamat: Jalan Kademangan, RT.3/RW.6, Klapagading, Wangon (RT03/RW06) WANGON, KAB. BANYUMAS, JAWA TENGAH, ID, 53176</p>
+                        <p id="profile-phone">Nomor Telepon: +62 812 3456 7890</p>
+                    </div>
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</a>
+                    <!-- Tombol Keluar Akun -->
+                    <a href="upload.html" class="btn btn-primary mt-3">Upload Produk</a>
+                    <a href="index.html" class="btn btn-danger mt-3" id="logout-button">Keluar Akun</a>
+                </div>
+            </div>
+
+            <!-- Order History -->
+            <div class="col-md-8">
+                <h3 class="mb-4">Riwayat Pesanan</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Nama Produk</th>
+                            <th scope="col">Jumlah</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Pengiriman</th>
+                            <th scope="col">Metode Pembayaran</th>
+                        </tr>
+                    </thead>
+                    <tbody id="order-history-items">
+                        <!-- Item riwayat pesanan akan dimuat di sini oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Profile -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-profile-form">
+                        <div class="mb-3">
+                            <label for="edit-name" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="edit-name" value="Ahmad Fajrul 'Ulum">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="edit-email" value="ahmadfajrululum927@gmail.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-address" class="form-label">Alamat</label>
+                            <textarea class="form-control" id="edit-address" rows="3">Jalan Kademangan, RT.3/RW.6, Klapagading, Wangon (RT03/RW06) WANGON, KAB. BANYUMAS, JAWA TENGAH, ID, 53176</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-phone" class="form-label">Nomor Telepon</label>
+                            <input type="text" class="form-control" id="edit-phone" value="+62 812 3456 7890">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary" id="save-changes-btn">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Marketplace. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateProfile() {
+            // Ambil nilai dari form
+            const name = document.getElementById('edit-name').value;
+            const email = document.getElementById('edit-email').value;
+            const address = document.getElementById('edit-address').value;
+            const phone = document.getElementById('edit-phone').value;
+
+            // Update data pada tampilan profil
+            document.getElementById('profile-name').innerText = name;
+            document.getElementById('profile-email').innerText = `Email: ${email}`;
+            document.getElementById('profile-address').innerText = `Alamat: ${address}`;
+            document.getElementById('profile-phone').innerText = `Nomor Telepon: ${phone}`;
+
+            // Tutup modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
+            modal.hide();
+        }
+
+        // Tangani klik pada tombol Simpan Perubahan
+        document.getElementById('save-changes-btn').addEventListener('click', function() {
+            updateProfile(); // Memperbarui profil
+        });
+
+        function formatRupiah(amount) {
+            return amount.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 });
+        }
+
+        function renderOrderHistory() {
+            const orderHistoryItemsElement = document.getElementById('order-history-items');
+            orderHistoryItemsElement.innerHTML = ''; // Kosongkan isi tabel
+
+            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const originalOrderHistory = [...orderHistory]; // Simpan urutan asli
+            orderHistory.reverse();
+            let counter = 1; // Nomor urut mulai dari 1
+
+            orderHistory.forEach((order, orderIndex) => {
+                order.items.forEach((item, itemIndex) => {
+                    const total = item.jumlah * parseFloat(item.price.replace(/[Rp,.]/g, '')); // Menghitung total
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${counter++}</td>
+                        <td class="text-left product-name-cell">${item.name}</td>
+                        <td>${item.jumlah}</td>
+                        <td>${formatRupiah(total)}</td> <!-- Menampilkan total -->
+                        <td>${item.shippingMethod}</td>
+                        <td>${order.paymentMethod}</td>
+                    `;
+                    orderHistoryItemsElement.appendChild(row);
+                });
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+    // Render order history
+    renderOrderHistory();
+
+    // Tambahkan kelas animasi setelah tabel dimuat
+    const table = document.querySelector('.table');
+    if (table) {
+        table.classList.add('table-animated');
+    }
+});
+
+
+        // Panggil renderOrderHistory saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            renderOrderHistory();
+            // Menambahkan animasi saat halaman dimuat
+            document.querySelector('.profile-card').style.animation = 'fadeInUp 1s forwards';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Dasboard</title>
+    <style>
+        /* Tambahkan CSS tambahan sesuai kebutuhan */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #563d7c;
+            color: white;
+            padding: 31px 20px; /* Ubah padding top dan bottom menjadi 15px */
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .button-back {
+            padding: 5px 10px;
+            background-color: #563d7c;
+            color: white;
+            text-decoration: none;
+        }
+
+        .dashboard {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .summary-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-item h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .summary-item p {
+            margin: 0;
+            color: #666;
+        }
+
+        .button {
+            padding: 5px 10px;
+            background-color: #563d7c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Marketplace</h1>
+        <a href="beranda.html" onclick="history.back();" class="button-back">Kembali</a>
+    </div>
+
+    <section class="dashboard">
+        <div class="summary-item">
+            <h2><i class="fas fa-store"></i> Ringkasan Toko</h2>
+            <p>Jumlah produk: 100</p>
+            <p>Jumlah pesanan baru: 10</p>
+            <p>Total pendapatan hari ini: $500</p>
+            <button class="button">Lihat Detail</button>
+        </div>
+        <div class="summary-item">
+            <h2><i class="fas fa-shopping-cart"></i> Pesanan</h2>
+            <p>Daftar pesanan:</p>
+            <ul>
+                <li>Pesanan 1</li>
+                <li>Pesanan 2</li>
+                <li>Pesanan 3</li>
+            </ul>
+            <button class="button">Lihat Semua Pesanan</button>
+        </div>
+        <div class="summary-item">
+            <h2><i class="fas fa-box"></i> Produk</h2>
+            <p>Daftar produk:</p>
+            <ul>
+                <li>Produk 1</li>
+                <li>Produk 2</li>
+                <li>Produk 3</li>
+            </ul>
+            <button class="button">Lihat Semua Produk</button>
+        </div>
+        <div class="summary-item">
+            <h2><i class="fas fa-chart-line"></i> Keuangan</h2>
+            <p>Informasi keuangan:</p>
+            <ul>
+                <li>Pendapatan bulan ini: $1000</li>
+                <li>Pengeluaran bulan ini: $500</li>
+                <li>Keuntungan bulan ini: $500</li>
+            </ul>
+            <button class="button">Lihat Laporan Keuangan</button>
+        </div>
+        <div class="summary-item">
+            <h2><i class="fas fa-cog"></i> Pengaturan Toko</h2>
+            <p>Pengaturan toko:</p>
+            <ul>
+                <li>Pengaturan 1</li>
+                <li>Pengaturan 2</li>
+                <li>Pengaturan 3</li>
+            </ul>
+            <button class="button">Atur Pengaturan</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Marketplace. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Penjual</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+
+        header {
+            background-color: #563d7c;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .button-back {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #563d7c;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form {
+            margin-bottom: 20px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            padding: 5px 10px;
+            background-color: #563d7c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .produk {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .produk-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        footer {
+            background-color: #563d7c;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Marketplace</h1>
+        <a href="#" onclick="history.back();" class="button-back">Kembali</a>
+    </header>
+
+    <section class="container">
+        <h2>Upload Jualan</h2>
+        <form action="/upload" method="POST" class="form">
+            <label for="nama_barang">Nama Barang:</label>
+            <input type="text" id="nama_barang" name="nama_barang" class="input"><br><br>
+            <label for="harga">Harga:</label>
+            <input type="text" id="harga" name="harga" class="input"><br><br>
+            <label for="deskripsi">Deskripsi:</label><br>
+            <textarea id="deskripsi" name="deskripsi" rows="4" cols="50" class="input"></textarea><br><br>
+            <input type="submit" value="Upload" class="button">
+        </form>
+    </section>
+
+    <section class="container">
+        <h2>Produk Anda</h2>
+        <div class="produk">
+            <div class="produk-item">
+                <h3>Produk 1</h3>
+                <p>Rp 100.000</p>
+                <p>Lorem ipsum dolor sit amet.</p>
+            </div>
+            <div class="produk-item">
+                <h3>Produk 2</h3>
+                <p>Rp 200.000</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+            <!-- Tambahkan data produk yang lain -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Marketplace. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Produk</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: sans-serif;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #000000;
+        }
+        .form-control:focus {
+            border-color: #000000;
+            box-shadow: 0 0 5px rgba(86, 61, 124, 0.5);
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0d6efd;
+        }
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .file-upload input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .file-upload-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .file-upload-label:hover {
+            background-color: #0d6efd;
+        }
+        .image-preview {
+            margin-top: 10px;
+            max-width: 100%;
+            max-height: 200px;
+            display: none;
+        }
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Upload Produk</h2>
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="productName">Nama Produk</label>
+                <input type="text" class="form-control" id="productName" required>
+            </div>
+            <div class="form-group">
+                <label for="productDescription">Deskripsi Produk</label>
+                <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="productPrice">Harga Produk</label>
+                <input type="number" class="form-control" id="productPrice" required>
+            </div>
+            <div class="form-group file-upload">
+                <label class="file-upload-label" for="productImage">Pilih Gambar Produk</label>
+                <input type="file" class="form-control-file" id="productImage" accept="image/*" required>
+            </div>
+            <div id="imagePreviewContainer">
+                <img id="imagePreview" class="image-preview" alt="Preview Gambar">
+                <div id="fileName" class="file-name"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Upload</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('productImage').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileName = file.name;
+                const fileReader = new FileReader();
+                
+                fileReader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('fileName').textContent = `Nama Gambar: ${fileName}`;
+                };
+                
+                fileReader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('name', document.getElementById('productName').value);
+            formData.append('description', document.getElementById('productDescription').value);
+            formData.append('price', document.getElementById('productPrice').value);
+            formData.append('image', document.getElementById('productImage').files[0]);
+
+            try {
+                const response = await fetch('upload_product.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                console.error('Error uploading product:', error);
+                alert('Terjadi kesalahan saat mengupload produk.');
+            }
+        });
+    </script>
+</body>
+</html>

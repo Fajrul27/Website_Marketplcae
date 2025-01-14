@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pesanan</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <style>
+        .product-image {
+            border-radius: 5px;
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            margin-bottom: -10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+
+        th,
+        td {
+            text-align: center;
+            vertical-align: middle !important;
+            padding: 10px;
+        }
+
+        .product-name-cell {
+            text-align: left;
+        }
+
+        .delete-icon {
+            cursor: pointer;
+            color: red;
+        }
+
+        .table {
+            border: 1px solid #ccc;
+            border-radius: 9px;
+            margin-left: 22px;
+            width: 100%;
+            max-width: 98.1%;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .popup-message {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(51, 51, 51, 0.9);
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            z-index: 9999;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+        }
+
+        .popup-message.show {
+            opacity: 1;
+        }
+        .back-button {
+            position: absolute;
+            top: 50px;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #e2e6ea;
+            color: #000;
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <a href="beranda.html" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z"/>
+        </svg>
+    </a>
+    <div class="container-fluid mt-5">
+        <h1 class="text-center mb-5">Riwayat Pesanan</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nama Produk</th>
+                    <th scope="col">Harga</th>
+                    <th scope="col">Jumlah</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Pengiriman</th>
+                    <th scope="col">Metode Pembayaran</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="order-history-items">
+                <!-- Item riwayat pesanan akan dimuat di sini oleh JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        function formatRupiah(amount) {
+            return amount.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 });
+        }
+
+        function renderOrderHistory() {
+            const orderHistoryItemsElement = document.getElementById('order-history-items');
+            orderHistoryItemsElement.innerHTML = ''; // Kosongkan isi tabel
+
+            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const originalOrderHistory = [...orderHistory]; // Simpan urutan asli
+            
+            orderHistory.reverse();
+
+            orderHistory.forEach((order, orderIndex) => {
+                order.items.forEach((item, itemIndex) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="text-left product-name-cell">
+                            <img src="${item.image_url}" alt="${item.name}" class="product-image">
+                            <span class="product-name">${item.name}</span>
+                        </td>
+                        <td>${item.price}</td>
+                        <td>${item.jumlah}</td>
+                        <td>${formatRupiah(parseFloat(item.price.replace(/[Rp,.]/g, '')) * item.jumlah)}</td>
+                        <td>${item.shippingMethod}</td>
+                        <td>${order.paymentMethod}</td>
+                        <td>
+                            <span class="delete-icon" onclick="deleteOrderItem(${originalOrderHistory.length - 1 - orderIndex}, ${itemIndex})">
+                                &#128465;
+                            </span>
+                        </td>
+                    `;
+                    orderHistoryItemsElement.appendChild(row);
+                });
+            });
+
+            // Tampilkan popup notifikasi setelah render riwayat pesanan
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            if (notifications.length > 0) {
+                notifications.forEach(notification => {
+                    showPopupNotification(notification);
+                });
+                localStorage.removeItem('notifications'); // Hapus notifikasi setelah ditampilkan
+            }
+        }
+
+        function showPopupNotification(notification) {
+            Swal.fire({
+                title: 'Pesanan Berhasil!',
+                text: `${notification.name} telah berhasil dipesan!`,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+        function deleteOrderItem(orderIndex, itemIndex) {
+            let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            orderHistory[orderIndex].items.splice(itemIndex, 1);
+
+            if (orderHistory[orderIndex].items.length === 0) {
+                orderHistory.splice(orderIndex, 1);
+            }
+
+            localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+            renderOrderHistory();
+        }
+
+        // Panggil renderOrderHistory saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', renderOrderHistory);
+    </script>
+</body>
+
+</html>

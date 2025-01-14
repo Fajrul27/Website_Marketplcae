@@ -1,0 +1,213 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    background-color: #563d7c;
+    color: white;
+}
+
+.jumbotron {
+    background-color: #563d7c;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 0;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 20px;
+}
+
+#product-list {
+    display: auto;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.product {
+    margin: 5px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #ffffff;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.product img {
+    max-width: 100%;
+    border-radius: 5px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.product h3 {
+    font-size: 13px;
+    margin-top: 10px;
+    color: #343a40;
+}
+
+.product p {
+    color: #000000;
+}
+
+.product:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+    background-color: #000000;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.nav-link img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    filter: invert(100%);
+}
+
+.modal-lg {
+    max-width: 80%;
+}
+
+.modal-body img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.store-info {
+    margin-top: 10px;
+}
+
+.store-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    color: #28a745;
+    margin-top: 10px;
+}
+
+.product-rating {
+    color: #f1c40f;
+    margin-top: 10px;
+}
+
+.product-description {
+    margin-top: 20px;
+}
+
+.read-more {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+
+.notification-icon {
+    position: relative;
+}
+
+.notification-icon .notification-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.notification-item img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.delete-icon {
+    cursor: pointer;
+    color: red;
+    margin-left: 10px;
+}
+
+
+.header-user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.header-user-actions .action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 10px;
+    position: relative;
+}
+
+
+.header-user-actions .notification-icon {
+    display: flex;
+    align-items: center;
+}
+
+.header-user-actions .notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
+.popup {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.popup.show {
+    display: n;
+    opacity: 1;
+}
+
+    .desktop-navigation-menu {
+    display: block;
+}
+
+    .container {
+    max-width: 1350px;
+}

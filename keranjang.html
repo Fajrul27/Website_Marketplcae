@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang Belanja</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .quantity-controls {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid rgb(191, 201, 217);
+            color: rgb(33, 33, 33);
+            vertical-align: middle;
+            transition: border-color 0.12s cubic-bezier(0.2, 0.64, 0.21, 1) 0s;
+            padding: 3px;
+            border-radius: 8px;
+            width: 90px;
+            font-size: 0.75rem;
+            line-height: 1.57143;
+        }
+
+        .quantity-controls button {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .quantity-controls input {
+            width: 50px;
+            text-align: center;
+            font-size: 14px;
+            border: none;
+            outline: none;
+        }
+
+        .quantity-controls input::-webkit-outer-spin-button,
+        .quantity-controls input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Mengatur ukuran dan posisi gambar produk */
+        .product-image {
+            border-radius: 5px;
+            max-width: 100px; /* Atur lebar maksimum gambar */
+            max-height: 100px; /* Atur tinggi maksimum gambar */
+            margin-right: 10px; /* Jarak antara gambar dan teks nama produk */
+        }
+
+        /* Mengatur teks nama produk */
+        .product-name {
+            font-size: 14px;
+            margin-bottom: -10px; /* Atur posisi teks ke atas */
+            white-space: nowrap; /* Hindari pemutusan teks */
+            overflow: hidden; /* Sembunyikan teks yang melebihi lebar */
+            text-overflow: ellipsis; /* Tambahkan elipsis jika teks terlalu panjang */
+            max-width: 150px; /* Atur lebar maksimum teks */
+        }
+
+        th,
+        td {
+            text-align: center;
+            vertical-align: middle !important;
+            padding: 10px;
+            /* Tambahkan padding untuk memastikan teks berada di tengah */
+        }
+
+        .product-name-cell {
+            text-align: left;
+        }
+        .back-button {
+            position: absolute;
+            top: 50px;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #e2e6ea;
+            color: #000;
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .floating-checkout{
+            font-size: 16px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: .25rem;
+            border-color: #007bff;
+        }
+
+        body {
+            padding-bottom: 70px; /* Memberi ruang di bagian bawah untuk memastikan tombol checkout tidak menutupi tabel */
+            margin: 0;
+        }
+
+        .table-container {
+            max-height: calc(100vh - 80px); /* Menyesuaikan tinggi tabel agar tidak menutupi checkout section */
+            overflow-y: auto; /* Memungkinkan tabel digulir secara vertikal */
+        }
+
+        .checkout-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .checkout-section .total-belanja {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .floating-checkout {
+            font-size: 16px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: .25rem;
+            border-color: #007bff;
+        }
+
+        
+
+
+</style>
+
+
+    </style>
+</head>
+
+<body>
+    <a href="beranda.html" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z"/>
+        </svg>
+    </a>
+    
+    <div class="container-fluid mt-5">
+        <h1 class="text-center mb-5">Keranjang Belanja</h1>
+        
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Pilih</th>
+                        <th scope="col">No</th>
+                        <th scope="col" class="text-left">Nama Produk</th>
+                        <th scope="col">Harga</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Jumlah</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- Item keranjang belanja akan dimuat di sini oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    
+        <div class="checkout-section">
+            <div class="total-belanja">
+                Total Belanja: <span id="total-price">0</span>
+            </div>
+            <button class="floating-checkout" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+    
+
+    <script>
+        let cartItems = []; // Inisialisasi variabel keranjang belanja
+        let selectedItems = new Set(); // Inisialisasi set untuk item yang dipilih
+
+        function formatRupiah(amount) {
+            return amount.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                maximumFractionDigits: 0,
+            });
+        }
+
+        function parsePrice(priceString) {
+            // Hapus simbol "Rp" dan titik dari string harga, lalu konversi ke float
+            return parseFloat(priceString.replace(/[Rp,.]/g, ''));
+        }
+
+        function renderCartItems() {
+            const cartItemsElement = document.getElementById('cart-items');
+            cartItemsElement.innerHTML = ''; // Kosongkan isi tabel
+
+            let totalPrice = 0;
+            cartItems.forEach((item, index) => {
+                const totalItemPrice = parsePrice(item.price) * item.jumlah; // Menggunakan 'jumlah' bukan 'quantity'
+                if (selectedItems.has(index)) {
+                    totalPrice += totalItemPrice;
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <input type="checkbox" onchange="toggleSelectItem(${index})" ${selectedItems.has(index) ? 'checked' : ''}>
+                    </td>
+                    <th scope="row">${index + 1}</th>
+                    <td class="text-left product-name-cell">
+                        <img src="${item.image_url}" alt="${item.name}" class="product-image">
+                        <span class="product-name">${item.name}</span>
+                    </td>
+                    <td>${item.price}</td>
+                    <td>${formatRupiah(totalItemPrice)}</td>
+                    <td>
+                        <div class="quantity-controls">
+                            <button onclick="changeQuantity(${index}, -1)">-</button>
+                            <input type="number" value="${item.jumlah}" onchange="updateQuantity(${index}, this.value)">
+                            <button onclick="changeQuantity(${index}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td><button class="btn btn-danger" onclick="removeItem(${index}, ${item.id})">Hapus</button></td>
+                `;
+                cartItemsElement.appendChild(row);
+            });
+
+            document.getElementById('total-price').innerText = formatRupiah(totalPrice);
+        }
+
+        function changeQuantity(index, delta) {
+            cartItems[index].jumlah += delta;
+            if (cartItems[index].jumlah < 1) {
+                cartItems[index].jumlah = 1;
+            }
+            renderCartItems();
+        }
+
+        function updateQuantity(index, value) {
+            let newQuantity = parseInt(value);
+            if (isNaN(newQuantity) || newQuantity < 1) {
+                newQuantity = 1;
+            }
+            cartItems[index].jumlah = newQuantity;
+            renderCartItems();
+        }
+
+        function toggleSelectItem(index) {
+            if (selectedItems.has(index)) {
+                selectedItems.delete(index);
+            } else {
+                selectedItems.add(index);
+            }
+            renderCartItems();
+        }
+
+        function removeItem(index, id) {
+            // Hapus dari database
+            fetch('remove_from_cart.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Hapus dari keranjang lokal
+                    cartItems.splice(index, 1);
+                    renderCartItems();
+                } else {
+                    console.error('Failed to remove item:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error removing item:', error);
+            });
+        }
+
+        function checkout() {
+            const selectedProducts = cartItems.filter((item, index) => selectedItems.has(index));
+            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+        }
+
+        function checkout() {
+        const selectedProducts = cartItems.filter((item, index) => selectedItems.has(index));
+        localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+        // Anda juga bisa mengarahkan ke halaman checkout di sini
+        window.location.href = "checkout.html";
+    }
+
+
+        // Ambil data keranjang belanja dari server
+        fetch('get_cart_items.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    cartItems = data.items;
+                    renderCartItems();
+                } else {
+                    console.error('Failed to fetch cart items:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching cart items:', error);
+            });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

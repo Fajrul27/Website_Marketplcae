@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Styles omitted for brevity */
+        .product-image {
+            border-radius: 5px;
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            margin-bottom: -10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+
+        th, td {
+            text-align: center;
+            vertical-align: middle !important;
+            padding: 10px;
+        }
+
+        .product-name-cell {
+            text-align: left;
+        }
+        
+        .css-490tlg {
+            display: flex;
+            align-items: center;
+        }
+
+        .css-490tlg svg {
+            margin-bottom: 14px;
+            margin-right: 8px;
+        }
+
+        .css-ba18u6 {
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+            width: 98.3%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 9px;
+            margin-bottom: 20px;
+        }
+
+        .css-9qxxl3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .css-budh8k {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .css-3w0yoi {
+            flex: 0 0 70%;
+        }
+
+        .css-490tlg {
+            display: flex;
+            align-items: center;
+        }
+
+        .css-1g0l6n1 {
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .css-1ayxazr {
+            display: flex;
+            font-size: 14px;
+            color: #777;
+            line-height: 1.5;
+        }
+
+        .css-uh5xjc {
+            flex: 0 0 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .table {
+            border: 1px solid #ccc;
+            border-radius: 9px;
+            margin-left: 22px;
+            width: 100%;
+            max-width: 98.1%;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .Pengiriman {
+            transition-timing-function: cubic-bezier(0.63, 0.01, 0.29, 1);
+            transition-duration: 300ms;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px;
+            padding: 8px 16px;
+            position: relative;
+            height: 48px;
+            width: 100%;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgb(var(--NN300, 191, 201, 217));
+            transition-property: all;
+        }
+
+        .payment-methods {
+            margin-left: 50px;
+            width: 98.2%;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h2 {
+            margin-bottom: 23px;
+            font-size: 24px;
+        }
+
+        select {
+            width: 40%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333"><path d="M7 10l5 5 5-5H7z"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: 98%;
+            background-position-y: 50%;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .checkout-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .checkout-section .total-belanja {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .checkout-section .btn-checkout {
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+
+        body {
+            padding-bottom: 70px; /* Memberi ruang di bagian bawah untuk memastikan tombol checkout tidak menutupi tabel */
+            margin: 0;
+        }
+
+        .table-container {
+            max-height: calc(100vh - 80px); /* Menyesuaikan tinggi tabel agar tidak menutupi checkout section */
+            overflow-y: auto; /* Memungkinkan tabel digulir secara vertikal */
+        }
+
+        .back-button {
+            position: absolute;
+            top: 50px;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #e2e6ea;
+            color: #000;
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <a href="keranjang.html" class="back-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H3.707l3.147 3.146a.5.5 0 0 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L3.707 7.5H14.5a.5.5 0 0 1 .5.5z"/>
+        </svg>
+    </a>
+    <div class="container-fluid mt-5">
+        <h1 class="text-center mb-5">Checkout</h1>
+        <div class="kotak">
+            <div class="css-ba18u6">
+                <div class="css-zzapvj">
+                    <h2 class="css-9qxxl3">Alamat Pengiriman</h2>
+                    <div class="css-budh8k">
+                        <div class="css-3w0yoi">
+                            <div class="css-490tlg">
+                                <svg class="nest-icon css-ozd7xs" width="16" height="16" fill="rgb(var(--GN500,0,170,91))" viewBox="0 0 24 24">
+                                    <path d="M12 2.24A7.67 7.67 0 0 0 4.25 10c0 7.36 7.08 11.48 7.38 11.66a.81.81 0 0 0 .74 0c.3-.18 7.38-4.3 7.38-11.66A7.669 7.669 0 0 0 12 2.24ZM12 13a3 3 0 1 1 0-6.001A3 3 0 0 1 12 13Z"></path>
+                                </svg>
+                                <p data-testid="addressTitle" class="css-1g0l6n1">Rumah&nbsp;•&nbsp;Ahmad Fajrul Ulum</p>
+                            </div>
+                            <p class="css-1ayxazr">Banyumas, Wangon, Klapagading , RT 03 RW 06, Wangon, Kab. Banyumas, Jawa Tengah, 6285715448426</p>
+                        </div>
+                        <div class="css-uh5xjc">
+                            <div style="display: none;">
+                                <div class="css-18nm742">
+                                    <div class="css-1xmu48r">
+                                        <div class="content">
+                                            <span class="checklist css-1aunxbe">
+                                                <input type="checkbox" value="">
+                                                <span data-n-checkbox="">
+                                                    <span data-n-check="">
+                                                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M10.4999 15.75C10.4013 15.7505 10.3037 15.7312 10.2127 15.6935C10.1217 15.6557 10.0391 15.6001 9.96989 15.53L6.96989 12.53C6.86602 12.387 6.81597 12.212 6.82857 12.0357C6.84117 11.8594 6.91562 11.6933 7.03877 11.5665C7.16193 11.4398 7.32589 11.3606 7.50172 11.3429C7.67756 11.3253 7.85399 11.3703 7.99989 11.47L10.4699 13.94L15.9999 8.47C16.1459 8.38696 16.3156 8.35536 16.4817 8.38026C16.6479 8.40516 16.8008 8.48512 16.9161 8.60731C17.0314 8.72951 17.1023 8.88687 17.1175 9.05417C17.1327 9.22148 17.0913 9.38904 16.9999 9.52999L10.9999 15.53C10.8674 15.6644 10.6885 15.7431 10.4999 15.75V15.75Z"></path>
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <h2>Pilih Metode Pembayaran</h2>
+                    <select name="payment" id="payment">
+                        <option value="cod">COD (Cash On Delivery)</option>
+                        <option value="bca">Bank BCA</option>
+                        <option value="bri">Bank BRI</option>
+                        <option value="briva">Bank BRIVA</option>
+                        <option value="bsi">Bank BSI</option>
+                        <option value="bni">Bank BNI</option>
+                        <option value="mandiri">Bank Mandiri</option>
+                    </select>
+                </div>
+
+                <div class="checkout-section">
+                    <div class="total-belanja">
+                        Total Belanja: <span id="total-price">0</span>
+                    </div>
+                    <button class="btn btn-primary btn-checkout" onclick="placeOrder()">Beli Sekarang</button>
+                </div>
+                
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col" class="text-left">Nama Produk</th>
+                            <th scope="col">Harga</th>
+                            <th scope="col">Jumlah</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Pengiriman</th>
+                        </tr>
+                    </thead>
+                    <tbody id="checkout-items">
+                        <!-- Item checkout akan dimuat di sini oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatRupiah(amount) {
+            return amount.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 });
+        }
+
+        function parsePrice(priceString) {
+            return parseFloat(priceString.replace(/[Rp,.]/g, ''));
+        }
+
+        function renderCheckoutItems() {
+            const checkoutItemsElement = document.getElementById('checkout-items');
+            checkoutItemsElement.innerHTML = ''; // Kosongkan isi tabel
+
+            const selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+            let totalPrice = 0;
+
+            selectedProducts.forEach((item, index) => {
+                const totalItemPrice = parsePrice(item.price) * item.jumlah;
+                totalPrice += totalItemPrice;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <th scope="row">${index + 1}</th>
+                    <td class="text-left product-name-cell">
+                        <img src="${item.image_url}" alt="${item.name}" class="product-image">
+                        <span class="product-name">${item.name}</span>
+                    </td>
+                    <td>${item.price}</td>
+                    <td>${item.jumlah}</td>
+                    <td>${formatRupiah(totalItemPrice)}</td>
+                    <td>
+                        <select class="form-control" name="product-shipping-method-${index}">
+                            <option value="J&T">J&T</option>
+                            <option value="JNE">JNE</option>
+                            <option value="POS">POS</option>
+                            <option value="ID Express">ID Express</option>
+                        </select>
+                    </td>
+                `;
+                checkoutItemsElement.appendChild(row);
+            });
+
+            document.getElementById('total-price').innerText = formatRupiah(totalPrice);
+        }
+
+    function placeOrder() {
+        const selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+        const paymentMethod = document.getElementById('payment').value;
+
+        const orderData = {
+            items: selectedProducts.map((item, index) => ({
+                ...item,
+                shippingMethod: document.querySelector(`select[name="product-shipping-method-${index}"]`).value
+            })),
+            paymentMethod
+        };
+
+        // Simpan data pesanan ke localStorage
+        const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+        orderHistory.push(orderData);
+        localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+
+        // Tambahkan notifikasi untuk setiap produk yang dipesan
+        selectedProducts.forEach(product => {
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+            notifications.push({
+                image_url: product.image_url,
+                name: product.name
+            });
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        });
+
+        // Bersihkan local storage produk terpilih setelah pemesanan selesai
+        localStorage.removeItem('selectedProducts');
+
+        // Arahkan ke halaman riwayat pesanan
+        window.location.href = 'riwayat_pesanan.html';
+    }
+
+        function renderNotifications() {
+            const notificationPopup = document.getElementById('notificationPopup');
+            notificationPopup.innerHTML = '';
+
+            const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+
+            notifications.forEach(notification => {
+                const item = document.createElement('div');
+                item.className = 'notification-item';
+                item.innerHTML = `
+                    <img src="${notification.image_url}" alt="${notification.name}">
+                    <span>${notification.name} telah berhasil dipesan</span>
+                `;
+                notificationPopup.appendChild(item);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCheckoutItems();
+            renderNotifications();
+
+            document.querySelector('.nav-link img[alt="Notifikasi"]').addEventListener('click', () => {
+                const notificationPopup = document.getElementById('notificationPopup');
+                if (notificationPopup.style.display === 'none' || notificationPopup.style.display === '') {
+                    notificationPopup.style.display = 'block';
+                } else {
+                    notificationPopup.style.display = 'none';
+                }
+            });
+        });
+
+        // Panggil renderCheckoutItems saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', renderCheckoutItems);
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
